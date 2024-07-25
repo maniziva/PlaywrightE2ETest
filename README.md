@@ -14,5 +14,7 @@ A comprehensive end-to-end testing framework using Playwright for robust and rel
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/PlaywrightE2ETest.git
+   git clone https://github.com/maniziva/PlaywrightE2ETest.git
    cd PlaywrightE2ETest
+   npm install
+   npx playwright install

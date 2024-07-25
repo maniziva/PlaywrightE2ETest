@@ -1,0 +1,7 @@
+/node_modules
+/playwright-report
+/test-results
+/blob-report/
+/playwright/.cache/
+/allure-results
+/src/setup/LoginAuth.json
