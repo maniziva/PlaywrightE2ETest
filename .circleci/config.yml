@@ -1,51 +1,27 @@
+# .circleci/config.yml
 version: 2.1
-
-executors:
-  node-executor:
-    docker:
-      - image: cimg/node:22.12.0-browsers
-    working_directory: ~/playwright-tests
-
 jobs:
-  install-dependencies:
-    executor: node-executor
+  run-test:
+    docker:
+      - image: mcr.microsoft.com/playwright:latest
+    # Enable parallelism of 3
+    parallelism: 3
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            - v1-dependencies-
+      - run: npm i -D @playwright/test
+      - run: npx playwright install
+      - run: npx playwright install chrome
       - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Install Playwright Browsers
-          command: npx playwright install --config=playwright.config.ts
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          name: Run tests
+          # Enable Playwright Shards
+          # - Use CURRENTS_RECORD_KEY secret from context
+          # - Grab Project ID from https://app.currents.dev
+          command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx pwc --key $CURRENTS_RECORD_KEY --project-id bnsqNa --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
 
-  run-playwright-tests:
-    executor: node-executor
-    steps:
-      - checkout
-      - run:
-          name: Run Playwright Tests
-          command: npx playwright test
-
+# Invoke jobs via workflows
 workflows:
-  test-workflow:
+  run-test-workflow:
     jobs:
-      - install-dependencies:
-          filters:
-            branches:
-              only:
-                - feature/login-page
-      - run-playwright-tests:
-          requires:
-            - install-dependencies
-          filters:
-            branches:
-              only:
-                - feature/login-page
+      - run-test:
+          # Use "currents" CircleCI context to enable access to secrets
+          context: currents
