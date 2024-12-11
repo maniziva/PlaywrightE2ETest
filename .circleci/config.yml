@@ -10,7 +10,7 @@ executors:
 jobs:
   run-test:
     executor: node-executor
-    parallelism: 2
+   # parallelism: 2
     steps:
       - checkout
       - run:
@@ -21,12 +21,13 @@ jobs:
           command: npx playwright install
       - run:
           name: Run Playwright Tests
-          command: |
-            if [ "$CIRCLE_NODE_INDEX" -eq 0 ]; then
-              npx playwright test --grep=login --shard=2/1
-            elif [ "$CIRCLE_NODE_INDEX" -eq 1 ]; then
-              npx playwright test --grep=signup --shard=2/2
-            fi
+          command: npx playwright test
+        #  command: |
+        #    if [ "$CIRCLE_NODE_INDEX" -eq 0 ]; then
+        #      npx playwright test --grep=login --shard=2/1
+        #    elif [ "$CIRCLE_NODE_INDEX" -eq 1 ]; then
+        #     npx playwright test --grep=signup --shard=2/2
+        #    fi
 
 workflows:
   run-test-workflow:
