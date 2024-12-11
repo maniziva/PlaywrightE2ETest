@@ -11,12 +11,20 @@ jobs:
     executor: node-executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-
       - run:
           name: Install Dependencies
           command: npm install
       - run:
           name: Install Playwright Browsers
           command: npx playwright install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
 
   run-playwright-tests:
     executor: node-executor
