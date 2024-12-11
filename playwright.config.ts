@@ -55,7 +55,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         // storageState: "./src/setup/LoginAuth.json",
-        headless: false,
+        headless: true,
         // viewport: { width: 1440, height: 900 }
       },
     },
