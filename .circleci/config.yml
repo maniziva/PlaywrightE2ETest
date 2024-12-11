@@ -1,22 +1,37 @@
 # .circleci/config.yml
 version: 2.1
-jobs:
-  run-test:
+
+executors:
+  node-executor:
     docker:
       - image: mcr.microsoft.com/playwright:latest
-    # Enable parallelism of 3
-    parallelism: 3
+    working_directory: ~/playwright-tests
+
+jobs:
+  install-dependencies:
+    executor: node-executor
     steps:
       - checkout
-      - run: npm i -D @playwright/test
-      - run: npx playwright install
-      - run: npx playwright install chrome
       - run:
-          name: Run tests
+          name: Install Dependencies
+          command: npm i -D @playwright/test
+      - run: 
+          name: Install Playwright Browsers
+          command: npx playwright install
+
+  run-playwright-tests:
+    executor: node-executor
+    steps:
+      - checkout
+      - run:
+          name: Run Playwright Tests
           command: npx playwright test
 
 # Invoke jobs via workflows
 workflows:
   run-test-workflow:
     jobs:
-      - run-test
+      - install-dependencies
+      - run-playwright-tests:
+          requires:
+            - install-dependencies
