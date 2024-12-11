@@ -15,4 +15,5 @@ test('@login test', async ({ page }) => {
   // Logout and Goto LoginPage
   await page.getByRole('button', { name: 'Logout' }).click();
   await page.getByRole('heading', { name: 'Contact List App' }).click();
+  console.log('completed');
 });
