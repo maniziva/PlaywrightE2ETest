@@ -36,4 +36,4 @@ workflows:
     filters:
       branches:
         only:
-          - main
+          - feature/login-page
