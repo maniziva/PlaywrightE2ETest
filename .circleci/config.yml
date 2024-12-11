@@ -8,7 +8,7 @@ executors:
     working_directory: ~/playwright-tests
 
 jobs:
-  install-dependencies:
+  run-test:
     executor: node-executor
     steps:
       - checkout
@@ -18,11 +18,6 @@ jobs:
       - run: 
           name: Install Playwright Browsers
           command: npx playwright install
-
-  run-playwright-tests:
-    executor: node-executor
-    steps:
-      - checkout
       - run:
           name: Run Playwright Tests
           command: npx playwright test
@@ -31,7 +26,4 @@ jobs:
 workflows:
   run-test-workflow:
     jobs:
-      - install-dependencies
-      - run-playwright-tests:
-          requires:
-            - install-dependencies
+      - run-test
