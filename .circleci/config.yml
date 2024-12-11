@@ -20,7 +20,7 @@ jobs:
           command: npm install
       - run:
           name: Install Playwright Browsers
-          command: npx playwright install
+          command: npx playwright install --config=playwright.config.ts
       - save_cache:
           paths:
             - node_modules
