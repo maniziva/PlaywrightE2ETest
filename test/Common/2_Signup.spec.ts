@@ -3,7 +3,7 @@ const baseURL = process.env.BASEURL as string;
 const username = process.env.MAILID as string;
 const password = process.env.PASSWORD as string;
 
-test('@login test', async ({ page }) => {
+test('@signup test', async ({ page }) => {
   // Goto Base URL
   await page.goto(baseURL);
   // Input Login

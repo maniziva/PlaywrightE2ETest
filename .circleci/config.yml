@@ -10,6 +10,7 @@ executors:
 jobs:
   run-test:
     executor: node-executor
+    parallelism: 2
     steps:
       - checkout
       - run:
@@ -20,10 +21,16 @@ jobs:
           command: npx playwright install
       - run:
           name: Run Playwright Tests
-          command: npx playwright test
+          command: npx playwright test --grep=login --shard=2/1
+      - run:
+          name: Run Playwright Tests
+          command: npx playwright test --grep=signup --shard=2/2
 
-# Invoke jobs via workflows
 workflows:
   run-test-workflow:
     jobs:
-      - run-test
+      - run-test:
+          filters:
+            branches:
+              only:
+                - feature/login-page
