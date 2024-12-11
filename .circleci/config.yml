@@ -13,15 +13,10 @@ jobs:
       - run: npx playwright install chrome
       - run:
           name: Run tests
-          # Enable Playwright Shards
-          # - Use CURRENTS_RECORD_KEY secret from context
-          # - Grab Project ID from https://app.currents.dev
-          command: SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx pwc --key $CURRENTS_RECORD_KEY --project-id bnsqNa --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+          command: npx playwright test
 
 # Invoke jobs via workflows
 workflows:
   run-test-workflow:
     jobs:
-      - run-test:
-          # Use "currents" CircleCI context to enable access to secrets
-          context: currents
+      - run-test
