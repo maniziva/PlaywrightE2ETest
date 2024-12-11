@@ -24,7 +24,7 @@ jobs:
       - checkout
       - run:
           name: Run Playwright Tests
-          command: npm test
+          command: npx playwright test
 
 workflows:
   test-workflow:
