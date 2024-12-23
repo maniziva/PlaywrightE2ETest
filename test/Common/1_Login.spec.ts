@@ -1,7 +1,17 @@
 import { test, expect } from '@playwright/test';
-const baseURL = process.env.BASEURL as string;
+
+const baseURL = process.env.BASEURL;
+if (!baseURL) {
+  throw new Error('BASEURL environment variable is not defined');
+}
 const username = process.env.MAILID as string;
-const password = process.env.PASSWORD as string;
+if (!username) {
+  throw new Error('MAILID environment variable is not defined');
+}
+const password = process.env.PASSWORD;
+if (!password) {
+  throw new Error('PASSWORD environment variable is not defined');
+}
 
 test('test', async ({ page }) => {
   // Goto Base URL

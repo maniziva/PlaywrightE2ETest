@@ -1,14 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-require('dotenv').config();
-dotenv.config({
-  path: './src/env/staging.env'
-});
+// Load environment variables from the specified file or default to './src/env/staging.env'
+const envFile = process.env.ENV_FILE || './src/env/staging.env';
+dotenv.config({ path: envFile });
+
+const isCI = !!process.env.CI;
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -54,8 +52,8 @@ export default defineConfig({
       // dependencies: ["setup"],
       use: {
         ...devices['Desktop Chrome'],
+        headless: isCI,
         // storageState: "./src/setup/LoginAuth.json",
-        headless: false,
         // viewport: { width: 1440, height: 900 }
       },
     },
