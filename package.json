@@ -8,13 +8,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.49.1",
     "@types/node": "^20.11.7",
     "allure-commandline": "^2.29.0",
     "allure-playwright": "^2.15.1"
   },
   "dependencies": {
     "csv-parse": "^5.5.5",
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.1",
+    "playwright": "^1.49.1"
   }
 }
