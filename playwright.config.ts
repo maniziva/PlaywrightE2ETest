@@ -19,7 +19,7 @@ export default defineConfig({
   //         maxDiffPixels: 10,
   //     },
   // },
-  testDir: './test/',
+  testDir: './test/web-test',
   /* Run tests in files in parallel */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -30,7 +30,7 @@ export default defineConfig({
   // workers: process.env.CI ? 1 : undefined,
   workers: process.env.CI ? 2 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html'], ['allure-playwright'],['junit', { outputFile: 'test-results/junit-report.xml' }]],
+  reporter: [['html'], ['allure-playwright'], ['junit', { outputFile: 'test-results/junit-report.xml' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -42,18 +42,18 @@ export default defineConfig({
   },
   /* Configure projects for major browsers */
   projects: [
-    // {
-    //   name: "setup",
-    //   testDir: "./",
-    //   testMatch: "global-setup.ts",
-    // },
+    {
+      name: "setup",
+      testDir: "./",
+      testMatch: "global-setup.ts",
+    },
     {
       name: 'chromium',
-      // dependencies: ["setup"],
+      dependencies: ["setup"],
       use: {
         ...devices['Desktop Chrome'],
         headless: isCI,
-        // storageState: "./src/setup/LoginAuth.json",
+        storageState: "./src/setup/LoginAuth.json",
         // viewport: { width: 1440, height: 900 }
       },
     },
